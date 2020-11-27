@@ -63,7 +63,7 @@
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "278606c3b0361257883b";
+/******/ 	var hotCurrentHash = "c615216c423912b37705";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -29404,13 +29404,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 
 
@@ -29453,12 +29453,23 @@ function (_React$Component) {
       }, {
         value: 'gallons',
         text: 'Gallons'
-      }]
-    };
+      }],
+      optionsTarget: [],
+      numericalValue: 0
+    }; //This binds the function to the state and key values. It causes the numericalValueChange 
+
+    _this.numericalValueChange = _this.numericalValueChange.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     return _this;
   }
 
   _createClass(Validator, [{
+    key: "numericalValueChange",
+    value: function numericalValueChange(e) {
+      this.setState({
+        numericalValue: e.target.value
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -29466,21 +29477,32 @@ function (_React$Component) {
       }, "Input Numerical Value"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         className: "form-control",
         type: "text",
-        id: "numericalValue"
+        id: "numericalValue",
+        onChange: this.numericalValueChange
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "unitOfMeasure"
       }, "Input Unit of Measure"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "form-control",
-        defaultValue: "default"
+        defaultValue: "default",
+        onChange: function onChange() {
+          return alert('Hello!');
+        }
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "default",
         disabled: true
-      }, "Please select"), this.state.options.map(function (option, key) {
+      }, "Please Select"), this.state.options.map(function (option, key) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
           value: option.value,
           key: key
         }, option.text);
-      }))));
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "targetOfMeasure"
+      }, "Target Unit of Measure"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        className: "form-control",
+        defaultValue: "default"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "default"
+      }, "Please Select"))));
     }
   }]);
 
