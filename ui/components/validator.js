@@ -38,7 +38,8 @@ export default class Validator extends React.Component {
             numericalValue: 0,
             showGrade: false,
             valid : false,
-            unitBeingMeasured: ""
+            unitBeingMeasured: "",
+            targetUnitOfMeasure: ""
         };
         this.temps = [
             'rankine',
@@ -82,7 +83,7 @@ export default class Validator extends React.Component {
         this.setState({ unitBeingMeasured : e.target.value}, this.buildOptionsList);
     }
     targetUnitOfMeasureChange(e){
-        this.setState({targetUnitOfMeasureChange : e.target.value}, this.buildOption);
+        this.setState({targetUnitOfMeasureChange : e.target.value}, this.buildOptionsList);
     }
 
     buildOptionsList() {
@@ -92,7 +93,7 @@ export default class Validator extends React.Component {
             case "kelvin":
             case "rankine":
                 this.setState({
-                    optionsTarget: this.temp.filter(e => e !== this.state.unitBeingMeasured)
+                    optionsTarget: this.temps.filter(e => e !== this.state.unitBeingMeasured)
                 });
                 break;
             {/*The logic for the default below is that if we are not filtering for temps, then we are filtering for volumes. */}

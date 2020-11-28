@@ -63,7 +63,7 @@
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "7d5a20fb91f85b45145a";
+/******/ 	var hotCurrentHash = "b9f8cfca839e14ad1d24";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -29458,7 +29458,8 @@ function (_React$Component) {
       numericalValue: 0,
       showGrade: false,
       valid: false,
-      unitBeingMeasured: ""
+      unitBeingMeasured: "",
+      targetUnitOfMeasure: ""
     };
     _this.temps = ['rankine', 'celsius', 'fahrenheit', 'kelvin'];
     _this.volumes = ['liters', 'tablespoons', 'cubic-inches', 'cups', 'cubic-feet', 'gallons']; //This binds the function to the state and key values. It causes the numericalValueChange 
@@ -29505,7 +29506,7 @@ function (_React$Component) {
     value: function targetUnitOfMeasureChange(e) {
       this.setState({
         targetUnitOfMeasureChange: e.target.value
-      }, this.buildOption);
+      }, this.buildOptionsList);
     }
   }, {
     key: "buildOptionsList",
@@ -29518,7 +29519,7 @@ function (_React$Component) {
         case "kelvin":
         case "rankine":
           this.setState({
-            optionsTarget: this.temp.filter(function (e) {
+            optionsTarget: this.temps.filter(function (e) {
               return e !== _this2.state.unitBeingMeasured;
             })
           });
