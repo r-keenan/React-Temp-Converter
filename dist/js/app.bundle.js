@@ -63,7 +63,7 @@
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "0538939c4fad6b087f4c";
+/******/ 	var hotCurrentHash = "7d5a20fb91f85b45145a";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -29455,12 +29455,19 @@ function (_React$Component) {
         text: 'Gallons'
       }],
       optionsTarget: [],
-      numericalValue: 0
-    }; //This binds the function to the state and key values. It causes the numericalValueChange 
+      numericalValue: 0,
+      showGrade: false,
+      valid: false,
+      unitBeingMeasured: ""
+    };
+    _this.temps = ['rankine', 'celsius', 'fahrenheit', 'kelvin'];
+    _this.volumes = ['liters', 'tablespoons', 'cubic-inches', 'cups', 'cubic-feet', 'gallons']; //This binds the function to the state and key values. It causes the numericalValueChange 
 
     _this.numericalValueChange = _this.numericalValueChange.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.studentResponseChange = _this.studentResponseChange.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.unitOfMeasureChange = _this.unitOfMeasureChange.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.targetUnitOfMeasureChange = _this.targetUnitOfMeasureChange.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.buildOptionsList = _this.buildOptionsList.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     return _this;
   }
 
@@ -29486,7 +29493,47 @@ function (_React$Component) {
   }, {
     key: "unitOfMeasureChange",
     value: function unitOfMeasureChange(e) {
-      alert(e.target.value);
+      {
+        /* this.buildOptionsList is the callback function that will be called when the unitOfMeasure is changed*/
+      }
+      this.setState({
+        unitBeingMeasured: e.target.value
+      }, this.buildOptionsList);
+    }
+  }, {
+    key: "targetUnitOfMeasureChange",
+    value: function targetUnitOfMeasureChange(e) {
+      this.setState({
+        targetUnitOfMeasureChange: e.target.value
+      }, this.buildOption);
+    }
+  }, {
+    key: "buildOptionsList",
+    value: function buildOptionsList() {
+      var _this2 = this;
+
+      switch (this.state.unitBeingMeasured) {
+        case "fahrenheit":
+        case "celsius":
+        case "kelvin":
+        case "rankine":
+          this.setState({
+            optionsTarget: this.temp.filter(function (e) {
+              return e !== _this2.state.unitBeingMeasured;
+            })
+          });
+          break;
+          {
+            /*The logic for the default below is that if we are not filtering for temps, then we are filtering for volumes. */
+          }
+
+        default:
+          this.setState({
+            optionsTarget: this.volumes.filter(function (e) {
+              return e !== _this2.state.unitBeingMeasured;
+            })
+          });
+      }
     }
   }, {
     key: "render",
@@ -29516,7 +29563,8 @@ function (_React$Component) {
         htmlFor: "targetOfMeasure"
       }, "Target Unit of Measure"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "form-control",
-        defaultValue: "default"
+        defaultValue: "default",
+        onChange: this.targetUnitOfMeasureChange
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "default"
       }, "Please Select")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -29526,7 +29574,11 @@ function (_React$Component) {
         onChange: this.studentResponseChange,
         type: "text",
         id: "studentResponse"
-      })));
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), this.state.showGrade ? this.state.valid ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+        className: "correct"
+      }, "Correct!") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+        className: "incorrect"
+      }, "Incorrect") : "");
     }
   }]);
 

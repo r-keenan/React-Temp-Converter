@@ -35,12 +35,32 @@ export default class Validator extends React.Component {
                 }
             ],
             optionsTarget: [],
-            numericalValue: 0
+            numericalValue: 0,
+            showGrade: false,
+            valid : false,
+            unitBeingMeasured: ""
         };
+        this.temps = [
+            'rankine',
+            'celsius',
+            'fahrenheit',
+            'kelvin'
+        ]
+
+        this.volumes = [
+            'liters',
+            'tablespoons',
+            'cubic-inches',
+            'cups',
+            'cubic-feet',
+            'gallons'
+        ]
         //This binds the function to the state and key values. It causes the numericalValueChange 
         this.numericalValueChange = this.numericalValueChange.bind(this);
         this.studentResponseChange = this.studentResponseChange.bind(this);
         this.unitOfMeasureChange = this.unitOfMeasureChange.bind(this);
+        this.targetUnitOfMeasureChange = this.targetUnitOfMeasureChange.bind(this);
+        this.buildOptionsList = this.buildOptionsList.bind(this);
     }
 
     numericalValueChange(e) {
@@ -58,7 +78,29 @@ export default class Validator extends React.Component {
         alert(e.target.value)
     }
     unitOfMeasureChange(e){
-        alert(e.target.value)
+        {/* this.buildOptionsList is the callback function that will be called when the unitOfMeasure is changed*/}
+        this.setState({ unitBeingMeasured : e.target.value}, this.buildOptionsList);
+    }
+    targetUnitOfMeasureChange(e){
+        this.setState({targetUnitOfMeasureChange : e.target.value}, this.buildOption);
+    }
+
+    buildOptionsList() {
+        switch(this.state.unitBeingMeasured) {
+            case "fahrenheit":
+            case "celsius":
+            case "kelvin":
+            case "rankine":
+                this.setState({
+                    optionsTarget: this.temp.filter(e => e !== this.state.unitBeingMeasured)
+                });
+                break;
+            {/*The logic for the default below is that if we are not filtering for temps, then we are filtering for volumes. */}
+            default:
+                this.setState ({
+                    optionsTarget: this.volumes.filter(e => e !== this.state.unitBeingMeasured)
+                });
+        }
     }
 
     render() {
@@ -85,7 +127,11 @@ export default class Validator extends React.Component {
                     </select>
 
                     <label htmlFor="targetOfMeasure">Target Unit of Measure</label>
-                    <select className="form-control" defaultValue="default">
+                    <select 
+                        className="form-control" 
+                        defaultValue="default"
+                        onChange={this.targetUnitOfMeasureChange}
+                    >
                         <option value="default">Please Select</option>
                     </select>
 
@@ -96,9 +142,13 @@ export default class Validator extends React.Component {
                         type="text"
                         id="studentResponse"
                     />
-
-
                 </form>
+                    
+                    <hr/>
+
+                    {/*You have to use turnaries instead of if/else statements in JSX.*/}
+                    {this.state.showGrade ? this.state.valid ? <h2 className="correct">Correct!</h2> : <h2 className='incorrect'>Incorrect</h2> : ""}
+
             </div>
         )
     }
