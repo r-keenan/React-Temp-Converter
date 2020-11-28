@@ -39,12 +39,26 @@ export default class Validator extends React.Component {
         };
         //This binds the function to the state and key values. It causes the numericalValueChange 
         this.numericalValueChange = this.numericalValueChange.bind(this);
+        this.studentResponseChange = this.studentResponseChange.bind(this);
+        this.unitOfMeasureChange = this.unitOfMeasureChange.bind(this);
     }
 
     numericalValueChange(e) {
+        if (!e.target.value) {
+            this.setState({numericalValue: 0});
+            return;
+        }
+
         this.setState({
-            numericalValue: e.target.value
+            numericalValue: parseFloat(e.target.value).toFixed(2)
         })
+    }
+
+    studentResponseChange(e){
+        alert(e.target.value)
+    }
+    unitOfMeasureChange(e){
+        alert(e.target.value)
     }
 
     render() {
@@ -61,7 +75,7 @@ export default class Validator extends React.Component {
                     <select
                         className="form-control"
                         defaultValue="default"
-                        onChange={() => alert('Hello!')}
+                        onChange={this.unitOfMeasureChange}
                         >
                         {/*the disabled below is to stop it from being selected when selecting from the dropdown*/}
                         <option value="default" disabled>Please Select</option>
@@ -74,6 +88,16 @@ export default class Validator extends React.Component {
                     <select className="form-control" defaultValue="default">
                         <option value="default">Please Select</option>
                     </select>
+
+                    <label htmlFor="studentResponse">Student Response</label>
+                    <input 
+                        className="form-control" 
+                        onChange={this.studentResponseChange}
+                        type="text"
+                        id="studentResponse"
+                    />
+
+
                 </form>
             </div>
         )

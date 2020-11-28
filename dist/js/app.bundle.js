@@ -63,7 +63,7 @@
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "c615216c423912b37705";
+/******/ 	var hotCurrentHash = "0538939c4fad6b087f4c";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -29459,15 +29459,34 @@ function (_React$Component) {
     }; //This binds the function to the state and key values. It causes the numericalValueChange 
 
     _this.numericalValueChange = _this.numericalValueChange.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.studentResponseChange = _this.studentResponseChange.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.unitOfMeasureChange = _this.unitOfMeasureChange.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     return _this;
   }
 
   _createClass(Validator, [{
     key: "numericalValueChange",
     value: function numericalValueChange(e) {
+      if (!e.target.value) {
+        this.setState({
+          numericalValue: 0
+        });
+        return;
+      }
+
       this.setState({
-        numericalValue: e.target.value
+        numericalValue: parseFloat(e.target.value).toFixed(2)
       });
+    }
+  }, {
+    key: "studentResponseChange",
+    value: function studentResponseChange(e) {
+      alert(e.target.value);
+    }
+  }, {
+    key: "unitOfMeasureChange",
+    value: function unitOfMeasureChange(e) {
+      alert(e.target.value);
     }
   }, {
     key: "render",
@@ -29484,9 +29503,7 @@ function (_React$Component) {
       }, "Input Unit of Measure"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "form-control",
         defaultValue: "default",
-        onChange: function onChange() {
-          return alert('Hello!');
-        }
+        onChange: this.unitOfMeasureChange
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "default",
         disabled: true
@@ -29502,7 +29519,14 @@ function (_React$Component) {
         defaultValue: "default"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "default"
-      }, "Please Select"))));
+      }, "Please Select")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "studentResponse"
+      }, "Student Response"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        className: "form-control",
+        onChange: this.studentResponseChange,
+        type: "text",
+        id: "studentResponse"
+      })));
     }
   }]);
 
