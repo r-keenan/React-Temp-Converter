@@ -63,7 +63,7 @@
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "b9f8cfca839e14ad1d24";
+/******/ 	var hotCurrentHash = "3aa5b7c65404de925193";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -29459,7 +29459,8 @@ function (_React$Component) {
       showGrade: false,
       valid: false,
       unitBeingMeasured: "",
-      targetUnitOfMeasure: ""
+      targetUnitOfMeasure: "",
+      studentResponse: 0
     };
     _this.temps = ['rankine', 'celsius', 'fahrenheit', 'kelvin'];
     _this.volumes = ['liters', 'tablespoons', 'cubic-inches', 'cups', 'cubic-feet', 'gallons']; //This binds the function to the state and key values. It causes the numericalValueChange 
@@ -29469,6 +29470,8 @@ function (_React$Component) {
     _this.unitOfMeasureChange = _this.unitOfMeasureChange.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.targetUnitOfMeasureChange = _this.targetUnitOfMeasureChange.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.buildOptionsList = _this.buildOptionsList.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.validate = _this.validate.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.grade = _this.grade.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     return _this;
   }
 
@@ -29485,11 +29488,15 @@ function (_React$Component) {
       this.setState({
         numericalValue: parseFloat(e.target.value).toFixed(2)
       });
+      this.validate();
     }
   }, {
     key: "studentResponseChange",
     value: function studentResponseChange(e) {
-      alert(e.target.value);
+      this.setState({
+        studentResponse: parseFloat(e.target.value).toFixed(2)
+      });
+      this.validate();
     }
   }, {
     key: "unitOfMeasureChange",
@@ -29500,6 +29507,7 @@ function (_React$Component) {
       this.setState({
         unitBeingMeasured: e.target.value
       }, this.buildOptionsList);
+      this.validate();
     }
   }, {
     key: "targetUnitOfMeasureChange",
@@ -29507,6 +29515,7 @@ function (_React$Component) {
       this.setState({
         targetUnitOfMeasureChange: e.target.value
       }, this.buildOptionsList);
+      this.validate();
     }
   }, {
     key: "buildOptionsList",
@@ -29534,6 +29543,41 @@ function (_React$Component) {
               return e !== _this2.state.unitBeingMeasured;
             })
           });
+      }
+    }
+  }, {
+    key: "validate",
+    value: function validate() {
+      /*This implies that these statement are all true*/
+      {
+        if (this.state.unitBeingMeasured && this.state.targetUnitOfMeasure && this.state.studentResponse && this.state.numericalValue) {
+          this.setState({
+            showGrade: true
+          });
+          this.grade();
+        } else {
+          this.setState({
+            showGrade: false
+          });
+        }
+      }
+    }
+  }, {
+    key: "grade",
+    value: function grade() {
+      var value;
+
+      switch (this.state.unitBeingMeasured) {
+        case "fahrenheit":
+          value = parseFloat(this.convertFahrenheit(this.state.numericalValue, this.state.targetUnitOfMeasure)).toFixed(2);
+      }
+    }
+  }, {
+    key: "convertFahrenheit",
+    value: function convertFahrenheit(input, output) {
+      switch (output) {
+        case "rankine":
+          return parseFloat(input * 1.0 - 459.67).toFixed(2);
       }
     }
   }, {
@@ -29568,7 +29612,16 @@ function (_React$Component) {
         onChange: this.targetUnitOfMeasureChange
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "default"
-      }, "Please Select")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      }, "Please Select"), this.state.optionsTarget.map(function (option, key) {
+        {
+          /*This is used to capitalize the first letter. similiar to Title() for Python, but it only works on first word. 
+          charAt(0).toUpperCase() + option.slice(1) */
+        }
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: option,
+          key: key
+        }, option.charAt(0).toUpperCase() + option.slice(1));
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "studentResponse"
       }, "Student Response"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         className: "form-control",

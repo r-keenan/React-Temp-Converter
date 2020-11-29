@@ -39,7 +39,8 @@ export default class Validator extends React.Component {
             showGrade: false,
             valid : false,
             unitBeingMeasured: "",
-            targetUnitOfMeasure: ""
+            targetUnitOfMeasure: "",
+            studentResponse: 0
         };
         this.temps = [
             'rankine',
@@ -62,6 +63,8 @@ export default class Validator extends React.Component {
         this.unitOfMeasureChange = this.unitOfMeasureChange.bind(this);
         this.targetUnitOfMeasureChange = this.targetUnitOfMeasureChange.bind(this);
         this.buildOptionsList = this.buildOptionsList.bind(this);
+        this.validate = this.validate.bind(this);
+        this.grade = this.grade.bind(this);
     }
 
     numericalValueChange(e) {
@@ -72,18 +75,22 @@ export default class Validator extends React.Component {
 
         this.setState({
             numericalValue: parseFloat(e.target.value).toFixed(2)
-        })
+        });
+        this.validate();
     }
 
     studentResponseChange(e){
-        alert(e.target.value)
+        this.setState({studentResponse : parseFloat(e.target.value).toFixed(2)});
+        this.validate();
     }
     unitOfMeasureChange(e){
         {/* this.buildOptionsList is the callback function that will be called when the unitOfMeasure is changed*/}
         this.setState({ unitBeingMeasured : e.target.value}, this.buildOptionsList);
+        this.validate();
     }
     targetUnitOfMeasureChange(e){
         this.setState({targetUnitOfMeasureChange : e.target.value}, this.buildOptionsList);
+        this.validate();
     }
 
     buildOptionsList() {
@@ -101,6 +108,34 @@ export default class Validator extends React.Component {
                 this.setState ({
                     optionsTarget: this.volumes.filter(e => e !== this.state.unitBeingMeasured)
                 });
+        }
+    }
+
+    validate() {
+        /*This implies that these statement are all true*/{
+        if(this.state.unitBeingMeasured && this.state.targetUnitOfMeasure && this.state.studentResponse && this.state.numericalValue){
+            this.setState({showGrade: true});
+            this.grade();
+        }
+        else {
+            this.setState({ showGrade: false});
+        }
+    }
+}
+
+    grade() {
+        let value;
+
+        switch(this.state.unitBeingMeasured){
+            case "fahrenheit":
+                value = parseFloat(this.convertFahrenheit(this.state.numericalValue, this.state.targetUnitOfMeasure)).toFixed(2)
+        } 
+    }
+
+    convertFahrenheit(input, output) {
+        switch(output) {
+            case "rankine":
+                return parseFloat((input * 1.0) - 459.67).toFixed(2);
         }
     }
 
@@ -134,6 +169,11 @@ export default class Validator extends React.Component {
                         onChange={this.targetUnitOfMeasureChange}
                     >
                         <option value="default">Please Select</option>
+                        {this.state.optionsTarget.map((option, key) => {
+                            {/*This is used to capitalize the first letter. similiar to Title() for Python, but it only works on first word. 
+                            charAt(0).toUpperCase() + option.slice(1) */}
+                            return <option value={option} key={key}>{option.charAt(0).toUpperCase() + option.slice(1)}</option>
+                        })}
                     </select>
 
                     <label htmlFor="studentResponse">Student Response</label>
