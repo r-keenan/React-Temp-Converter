@@ -157,6 +157,8 @@ export default class Validator extends React.Component {
             case "gallons":
                 value = this.convertCubicFeet(this.state.numericalValue, this.state.targetUnitOfMeasure).toFixed(2);
                 break;
+            default:
+                break;
         }
         if (value === this.state.studentResponse) {
             this.setState({valid: true, showGrade: true});
@@ -234,7 +236,90 @@ export default class Validator extends React.Component {
         }
     }
 
-    
+    convertTablespoons (input, output){
+        switch(output) {
+            case "liters":
+                return parseFloat(input / 67.628).toFixed(2);
+            case "cubic-inches":
+                return parseFloat(input / 1.108).toFixed(2);
+            case "cups":
+                return parseFloat(input / 16).toFixed(2);
+            case "cubic-feet":
+                return parseFloat(input / 1915.013).toFixed(2);
+            case "gallons":
+                return parseFloat(input / 256).toFixed(2);
+            default:
+                return;
+        }
+    }
+
+    convertCups (input, output){
+        switch(output) {
+            case "tablespoons":
+                return parseFloat(input * 16).toFixed(2);
+            case "liters":
+                return parseFloat(input / 4.227).toFixed(2);
+            case "cubic-inches":
+                return parseFloat(input * 14.4375).toFixed(2);
+            case "cubic-feet":
+                return parseFloat(input / 119.688).toFixed(2);
+            case "gallons":
+                return parseFloat(input / 16).toFixed(2);
+            default:
+                return;
+        }
+    }
+
+    convertCubicInches (input, output) {
+        switch(output){
+            case "tablespoons":
+                return parseFloat(input * 1.108).toFixed(2);
+            case "liters":
+                return parseFloat(input / 61.024).toFixed(2);
+            case "cups":
+                return parseFloat(input / 14.438).toFixed(2);
+            case "cubic-feet":
+                return parseFloat(input / 1728).toFixed(2);
+            case "gallons":
+                return parseFloat(input / 231).toFixed(2);
+            default:
+                return;
+        }
+    }
+
+    convertCubicFeet (input, output) {
+        switch(output){
+            case "tablespoons":
+                return parseFloat(input * 1915.013).toFixed(2);
+            case "liters":
+                return parseFloat(input / 28.317).toFixed(2);
+            case "cups":
+                return parseFloat(input * 119.688).toFixed(2);
+            case "cubic-inches":
+                return parseFloat(input * 1728).toFixed(2);
+            case "gallons":
+                return parseFloat(input * 7.481).toFixed(2);
+            default:
+                return;
+        }
+    }
+
+    convertGallons (input, output) {
+        switch(output){
+            case "tablespoons":
+                return parseFloat(input * 256).toFixed(2);
+            case "liters":
+                return parseFloat(input * 3.785).toFixed(2);
+            case "cups":
+                return parseFloat(input * 16).toFixed(2);
+            case "cubic-inches":
+                return parseFloat(input * 231).toFixed(2);
+            case "cubic-feet":
+                return parseFloat(input / 7.481).toFixed(2);
+            default:
+                return;
+        }
+    }
 
     render() {
         return (
