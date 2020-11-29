@@ -63,7 +63,7 @@
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "3aa5b7c65404de925193";
+/******/ 	var hotCurrentHash = "d239f1b924c2ce965717";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -29570,6 +29570,55 @@ function (_React$Component) {
       switch (this.state.unitBeingMeasured) {
         case "fahrenheit":
           value = parseFloat(this.convertFahrenheit(this.state.numericalValue, this.state.targetUnitOfMeasure)).toFixed(2);
+          break;
+
+        case "celsius":
+          value = parseFloat(this.convertCelsius(this.state.numericalValue, this.state.targetUnitOfMeasure)).toFixed(2);
+          break;
+
+        case "kelvin":
+          value = this.convertKelvin(this.state.numericalValue, this.state.targetUnitOfMeasure).toFixed(2);
+          break;
+
+        case "rankine":
+          value = this.convertRankine(this.state.numericalValue, this.state.targetUnitOfMeasure).toFixed(2);
+          break;
+
+        case "liters":
+          value = this.convertLiters(this.state.numericalValue, this.state.targetUnitOfMeasure).toFixed(2);
+          break;
+
+        case "tablespoons":
+          value = this.convertTablespoons(this.state.numericalValue, this.state.targetUnitOfMeasure).toFixed(2);
+          break;
+
+        case "cups":
+          value = this.convertCups(this.state.numericalValue, this.state.targetUnitOfMeasure).toFixed(2);
+          break;
+
+        case "cubic-inches":
+          value = this.convertCubicInches(this.state.numericalValue, this.state.targetUnitOfMeasure).toFixed(2);
+          break;
+
+        case "cubic-feet":
+          value = this.convertCubicFeet(this.state.numericalValue, this.state.targetUnitOfMeasure).toFixed(2);
+          break;
+
+        case "gallons":
+          value = this.convertCubicFeet(this.state.numericalValue, this.state.targetUnitOfMeasure).toFixed(2);
+          break;
+      }
+
+      if (value === this.state.studentResponse) {
+        this.setState({
+          valid: true,
+          showGrade: true
+        });
+      } else {
+        this.setState({
+          valid: false,
+          showGrade: true
+        });
       }
     }
   }, {
@@ -29578,6 +29627,89 @@ function (_React$Component) {
       switch (output) {
         case "rankine":
           return parseFloat(input * 1.0 - 459.67).toFixed(2);
+
+        case "kelvin":
+          return parseFloat((input - 32) / 1.8 + 273.15).toFixed(2);
+
+        case "celsius":
+          return parseFloat((input - 32) / 1.8).toFixed(2);
+
+        default:
+          return;
+      }
+    }
+  }, {
+    key: "convertCelsius",
+    value: function convertCelsius(input, output) {
+      switch (output) {
+        case "rankine":
+          return parseFloat(input * 9 / 5 + 491.67).toFixed(2);
+
+        case "kelvin":
+          return parseFloat(input + 273.15).toFixed(2);
+
+        case "fahrenheit":
+          return parseFloat(input * 1.8 + 32).toFixed(2);
+
+        default:
+          return;
+      }
+    }
+  }, {
+    key: "convertKelvin",
+    value: function convertKelvin(input, output) {
+      switch (output) {
+        case "rankine":
+          return parseFloat(input * 1.8).toFixed(2);
+
+        case "fahrenheit":
+          return parseFloat(input * 273.15 * 9 / 5 + 32).toFixed(2);
+
+        case "celsius":
+          return parseFloat(input - 273.15).toFixed(2);
+
+        default:
+          return;
+      }
+    }
+  }, {
+    key: "convertRankine",
+    value: function convertRankine(input, output) {
+      switch (output) {
+        case "fahrenheit":
+          return parseFloat(input - 459.67).toFixed(2);
+
+        case "kelvin":
+          return parseFloat(input * 5 / 9).toFixed(2);
+
+        case "celsius":
+          return parseFloat((input - 491.67) * 5 / 9).toFixed(2);
+
+        default:
+          return;
+      }
+    }
+  }, {
+    key: "convertLiters",
+    value: function convertLiters(input, output) {
+      switch (output) {
+        case "tablespoons":
+          return parseFloat(input * 67.628).toFixed(2);
+
+        case "cubic-inches":
+          return parseFloat(input * 61.024).toFixed(2);
+
+        case "cups":
+          return parseFloat(input * 4.227).toFixed(2);
+
+        case "cubic-feet":
+          return parseFloat(input / 28.317).toFixed(2);
+
+        case "gallons":
+          return parseFloat(input / 3.785).toFixed(2);
+
+        default:
+          return;
       }
     }
   }, {
@@ -29589,7 +29721,8 @@ function (_React$Component) {
         className: "form-control",
         type: "text",
         id: "numericalValue",
-        onChange: this.numericalValueChange
+        onChange: this.numericalValueChange,
+        onBlur: this.numericalValueChange
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "unitOfMeasure"
       }, "Input Unit of Measure"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
@@ -29626,6 +29759,7 @@ function (_React$Component) {
       }, "Student Response"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         className: "form-control",
         onChange: this.studentResponseChange,
+        onBlur: this.studentResponseChange,
         type: "text",
         id: "studentResponse"
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), this.state.showGrade ? this.state.valid ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
